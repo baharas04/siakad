@@ -1,11 +1,10 @@
 services:
   - type: web
     name: siakad-ci4
-    env: php
-    region: oregon
+    env: docker
     plan: free
-    buildCommand: composer install
-    startCommand: php public/index.php
+    branch: main
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: CI_ENVIRONMENT
         value: production
