@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: siakad-ci4
+    env: php
+    region: oregon
+    plan: free
+    buildCommand: composer install
+    startCommand: php public/index.php
+    envVars:
+      - key: CI_ENVIRONMENT
+        value: production
+      - key: app.baseURL
+        value: https://siakad-ci4.onrender.com/
