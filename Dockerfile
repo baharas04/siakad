@@ -1,9 +1,9 @@
 FROM php:8.2-apache
 
-# Install dependencies
+# Install dependencies dan ekstensi PHP yang dibutuhkan (termasuk intl)
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl libzip-dev libpng-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql zip gd
+    zip unzip git curl libzip-dev libpng-dev libonig-dev libxml2-dev libicu-dev \
+    && docker-php-ext-install pdo pdo_mysql zip gd intl
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -14,12 +14,11 @@ COPY . /var/www/html/
 # Set working directory
 WORKDIR /var/www/html/
 
-# Copy custom vhost config (optional, else use .htaccess)
-# COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
-
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install
+
+# Jalankan composer install (gunakan --no-interaction agar non-interaktif)
+RUN composer install --no-interaction --optimize-autoloader
 
 # Expose port 80
 EXPOSE 80
