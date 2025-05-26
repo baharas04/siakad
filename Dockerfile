@@ -11,6 +11,11 @@ RUN a2enmod rewrite
 # Copy source project
 COPY . /var/www/html/
 
+# Set writable permission
+RUN mkdir -p /var/www/html/writable/cache \
+ && chmod -R 775 /var/www/html/writable
+
+
 # Set working directory
 WORKDIR /var/www/html
 
